@@ -34,13 +34,15 @@ bot.on("messageCreate" , async message => {
     if(!message.content.startsWith(prefix)) return;
 
     if(command === "ping") {
-        bot.commands.get('ping').execute(message);
-    } else if(command === "about") {
-        bot.commands.get('about').execute(message);
-    } else if(command === "play") {
-        bot.commands.get('play').execute(message, args, bot);
+        bot.commands.get('ping').execute(message , bot);
+    } else if(command === "help") {
+        bot.commands.get('help').execute(message, bot);
+    } else if(command === "play" || command === "p" || command === "queue" || command === "q") {
+        bot.commands.get('player').execute(message, args, bot , command);
     } else if(command === "leave") {
         bot.commands.get('leave').execute(message, bot);
+    } else if(command === "skip" || command === "next" || command === "n") {
+        bot.commands.get('player').execute(message, args, bot, command);
     }
 
 });

@@ -1,22 +1,12 @@
-const Eris = require("eris");
-const dotenv = require("dotenv").config();
-
-let bot = new Eris(process.env.BOT_TOKEN);
-
 module.exports = {
-    name : "About Command",
+    name : "help",
     description : "About this Bot",
-    execute(message) {
+    execute(message , bot) {
 
         bot.createMessage(message.channel.id , {
             embed: {
                 title: "About This Bot", 
                 description: "This Bot is a Music Bot and a Text to Speech Bot",
-                author: { 
-                    text : "test",
-                    name: message.author.username,
-                    icon_url: message.author.avatarURL
-                },
                 color: 0x008000,
                 fields: [ 
                     {

@@ -7,7 +7,13 @@ module.exports = {
         if(!voiceChannel)
             return bot.createMessage(message.channel.id , "You need to be in a voice channel to stop the music!");
         
-        await bot.createMessage(message.channel.id, "Leaving the Channel, Thanks for using Boom Box!");
+        await bot.createMessage(message.channel.id, {
+                    embed : {
+                        title : "***Leaving Voice Channel***",
+                        description :  "Thank you for using the bot!",
+                        color: 15158332,
+                    }
+                });
         bot.leaveVoiceChannel(message.channel.id)
         
     }
