@@ -34,8 +34,8 @@ client.on('message' , message => {
             client.commands.get('play').execute(message, args, command, client, Discord);
             break;
         
-        case "about" :
-
+        case "skip" :
+            client.commands.get('skip').execute(message, args);
             break;
 
         case "ping" :

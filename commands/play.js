@@ -13,7 +13,7 @@ module.exports = {
         
         if(!voice_channel) 
             return message.reply('You need to be in a channel to execute this command!');
-
+            
         const permissions = voice_channel.permissionsFor(message.client.user);
 
         if(!permissions.has('CONNECT')) 
@@ -76,7 +76,13 @@ module.exports = {
     
         } else {
             server_queue.songs.push(song);
-            return message.channel.send(`**${song.title}** was added to the queue!`);
+
+            const addedEmbed = new Discord.MessageEmbed()
+            .setColor("#56bc8a")
+            .setTitle("Added to Queue")
+            .setDescription(`**${song.title}** was added to the queue!`);
+
+            return message.channel.send(addedEmbed);
         }
     },
 

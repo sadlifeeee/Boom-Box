@@ -22,8 +22,13 @@ module.exports = {
                 song_queue.songs.shift();
                 videoPlayer(guild, song_queue.songs[0]);
             });
-
-            await song_queue.text_channel.send(` Now Playing! **${song.title}**`);
+            
+            const playingEmbed = new Discord.MessageEmbed() 
+            .setColor("#3f00ff")
+            .setTitle("Now Playing")
+            .setDescription(`**${song.title}**`);
+            
+            await song_queue.text_channel.send(playingEmbed);
         }
 
         videoPlayer(guild, song);
