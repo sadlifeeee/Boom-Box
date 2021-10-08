@@ -1,50 +1,57 @@
-const Eris = require("eris");
+const Discord = require('discord.js');
 const dotenv = require("dotenv").config();
 const fs = require('fs');
+const client = new Discord.Client({
+    restTimeOffset: 0
+});
 
-const bot = new Eris(process.env.BOT_TOKEN);
-let prefix = "$";
+client.commands = new Discord.Collection();
 
-bot.commands = new Eris.Collection();
 
-fs.readdirSync('./commands/').filter(file => file.endsWith('.js'))
-.forEach(file => {
+fs.readdirSync('./commands/').filter(file => file.endsWith('.js')).forEach(file => {
+
     const command = require(`./commands/${file}`);
+    client.commands.set(command.name , command);
+
     console.log(`Command ${command.name} loaded`);
-    bot.commands.set(command.name , command);
 });
 
 
-bot.on("ready" , () => {
-    console.log("Ready!");
-    bot.editStatus("idle" , {name: "$help for commands" , type: 0})
+client.once('ready' , async () => {
+    console.log('Bot is running!');
 });
 
-bot.on("error" , (err) => {
-    console.error(err);
-});
+const prefix = "$";
 
-bot.on("messageCreate" , async message => {
+client.on('message' , message => {
+    if(!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
 
-    if(message.author.bot || !message.channel.guild) return;
+    switch(command) {
+        case "play" :
+            client.commands.get('play').execute(message, args, command, client, Discord);
+            break;
+        
+        case "about" :
 
-    if(!message.content.startsWith(prefix)) return;
+            break;
 
-    if(command === "ping") {
-        bot.commands.get('ping').execute(message , bot);
-    } else if(command === "help") {
-        bot.commands.get('help').execute(message, bot);
-    } else if(command === "play" || command === "p" || command === "queue" || command === "q") {
-        bot.commands.get('player').execute(message, args, bot , command);
-    } else if(command === "leave") {
-        bot.commands.get('leave').execute(message, bot);
-    } else if(command === "skip" || command === "next" || command === "n") {
-        bot.commands.get('player').execute(message, args, bot, command);
+        case "ping" :
+            client.commands.get('ping').execute(message, args);
+            break;
+
+        case "leave" :
+            client.commands.get('leave').execute(message);
+            break;
+
+        default: 
+            message.reply("Command does not Exist!");
     }
+
 
 });
 
-bot.connect();
+
+client.login(process.env.BOT_TOKEN);
