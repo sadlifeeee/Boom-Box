@@ -1,2 +1,2 @@
 # Boom-Box
-This is a Music Discord Bot + TTS Bot Using Eris API 
+This is a Music Discord Bot
