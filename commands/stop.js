@@ -21,8 +21,8 @@ module.exports = {
 
         server_queue.songs = [];
 
-        queue.deleteQueue();
-        
+        queue.deleteQueue(message);
+
         server_queue.connect.dispatcher.end();
     }
 }

@@ -1,3 +1,5 @@
+const queue = require('./queueList.js');
+
 module.exports = {
     name : "leave",
     description: "Bot leaves the channel",
@@ -14,6 +16,7 @@ module.exports = {
             .setDescription(`Thanks for using the bot!`);
 
         message.channel.send(leaveEmbed);
+        queue.deleteQueue(message);
         voice_channel.leave()
     }
 }
