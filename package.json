@@ -13,7 +13,8 @@
     "ytdl-core": "^4.9.1"
   },
   "scripts": {
-    "test": "npm i"
+    "heroku-postbuild" : "node index.js",
+    "start" : "node index.js"
   },
   "author": "",
   "license": "ISC"
