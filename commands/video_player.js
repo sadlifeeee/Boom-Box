@@ -6,7 +6,7 @@ module.exports = {
     name: 'Video Player',
     description: "Player",
 
-    async player(guild, song) {
+    async player(guild, song, Discord) {
 
         const videoPlayer = async(guild, song) => {
             const song_queue = queue.getQueue().get(guild.id);
@@ -24,7 +24,7 @@ module.exports = {
             });
             
             const playingEmbed = new Discord.MessageEmbed() 
-            .setColor("#3f00ff")
+            .setColor("#8deeee")
             .setTitle("Now Playing")
             .setDescription(`**${song.title}**`);
             

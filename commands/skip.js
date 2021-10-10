@@ -15,8 +15,14 @@ module.exports = {
         if(!server_queue)
             return message.channel.send("There are no songs in the queue");
 
-        message.channel.send("Skipped the Music!");
+        const skipEmbed = new Discord.MessageEmbed() 
+            .setColor("#faed72")
+            .setTitle("Skipped Song")
+            .setDescription(`Loading Next Song!`);
+
+        message.channel.send(skipEmbed);
         
-        server_queue.connect.dispatcher.end();
+        server_queue.connection.dispatcher.end();
+
     }
 }

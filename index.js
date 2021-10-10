@@ -30,20 +30,41 @@ client.on('message' , message => {
     const command = args.shift().toLowerCase();
 
     switch(command) {
-        case "play" :
+
+        case "play":
+        case "p":
+        case "queue":
+        case "q":
+        {
             client.commands.get('play').execute(message, args, command, client, Discord);
             break;
-        
-        case "skip" :
-            client.commands.get('skip').execute(message, args);
+        }
+
+        case "skip":
+        case "next":
+        case "n": 
+        {
+            client.commands.get('skip').execute(message, Discord);
             break;
+        }
 
         case "ping" :
             client.commands.get('ping').execute(message, args);
             break;
 
         case "leave" :
-            client.commands.get('leave').execute(message);
+            client.commands.get('leave').execute(message, Discord);
+            break;
+
+        case "about":
+        case "help": 
+        {
+            client.commands.get('about').execute(message, Discord);
+            break;
+        }
+
+        case "list" :
+            client.commands.get('queueList').execute(message, Discord);
             break;
 
         default: 

@@ -11,6 +11,8 @@ module.exports = {
 
         const voice_channel = message.member.voice.channel;
         
+        voice_channel.guild.me.edit({deafen:true})
+
         if(!voice_channel) 
             return message.reply('You need to be in a channel to execute this command!');
             
@@ -61,13 +63,15 @@ module.exports = {
                 songs: []
             }
 
-            queue.queueConstruct(message, queue_constructor);
             queue_constructor.songs.push(song);
 
             try {
                 const connection = await voice_channel.join();
+                connection.voice.setSelfDeaf(true);
                 queue_constructor.connection = connection;
-                video_player.player(message.guild, queue_constructor.songs[0]);
+                
+                queue.queueConstruct(message, queue_constructor);
+                video_player.player(message.guild, queue_constructor.songs[0], Discord);
             } catch(err) {
                 queue.deleteQueue(message);
                 message.channel.send('There was an error connecting to the server!');
@@ -78,7 +82,7 @@ module.exports = {
             server_queue.songs.push(song);
 
             const addedEmbed = new Discord.MessageEmbed()
-            .setColor("#56bc8a")
+            .setColor("#3f00ff")
             .setTitle("Added to Queue")
             .setDescription(`**${song.title}** was added to the queue!`);
 

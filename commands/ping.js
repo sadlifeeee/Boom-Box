@@ -1,6 +1,6 @@
 module.exports = {
     name : "ping",
-    description: "Shows the ping of the bot!",
+    description: "Ping Bot!",
 
     execute(message, args) {
         message.reply('Pong!');
