@@ -84,6 +84,10 @@ client.on('message' , message => {
             client.commands.get('pause').execute(message, Discord);
             break;
 
+        case "pick":
+            client.commands.get('pick').execute(message , args , command , client , Discord);
+            break;
+
         default:  
             message.reply("Command does not Exist!");
     }

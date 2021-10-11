@@ -2,11 +2,10 @@ const ytdl = require('ytdl-core');
 const ytSearch = require('yt-search');
 const queue = require('./queueList.js');
 const video_player = require('./video_player.js');
-const ytpl = require('ytpl');
 
 module.exports = {
-    name : 'play',
-    description: 'Plays Music',
+    name : 'pick',
+    description: 'lets you pick from top search',
 
     async execute(message , args , command , client , Discord) {
 
@@ -31,33 +30,43 @@ module.exports = {
             return message.reply('You need to send the second argument for the command to work!');
 
         let song = {};
-        let playlist = false;
-        let allsongs = [];
 
         if(ytdl.validateURL(args)) {
-            const song_info = await ytdl.getInfo(args);
-            song.push({title : song_info.videoDetails.title , url: song_info.videoDetails.video_url});
-
-        } else if(ytpl.validateID(args[0].toString())){
-            playlist = true;
-
-            const video_playlist = async(query) => {
-                const playlistResult = await ytpl(query, { limit: Infinity });
-                for(i = 0; i < playlistResult.items.length; i++) {
-                    song = {title: playlistResult.items[i].title, url: playlistResult.items[i].url};
-                    allsongs.push(song);
-                }
-            }
-
-            await video_playlist(args[0].toString())
-            // for people reading this code, there might be a better way to do this but yeah 
+            message.reply('Link does not work with this command');  
         } else {
+
             const video_finder = async(query) => {
                 const videoResult = await ytSearch(query);
-                let result = null;
+                let result ;
 
-                if(videoResult.videos.length > 1)
-                    result = videoResult.videos[0];
+                const pickEmbed = new Discord.MessageEmbed() 
+                .setColor("#ffbdcc")
+                .setTitle("Youtube Top 5 Result")
+                .setDescription("Pick from **1 to 5**");
+
+                for(i = 0; i < 5; i++) {
+                    pickEmbed.addField("[" + (i + 1) + "]" , videoResult.videos[i].title );
+                }
+
+                message.channel.send(pickEmbed);
+
+                const filter = (m) => m.author.id === message.author.id;
+                
+                await message.channel.awaitMessages(filter, {max : 1, time : 10000, errors: ["time"]})
+                .then((collected) => {
+                    const msg = collected.first();
+
+                    if(isNaN(parseInt(msg.content)) || (parseInt(msg.content) > 5 && parseInt(msg.content) < 0))
+                        return message.channel.reply("Invalid Input, Try the command again");
+                    else {
+                        const index = parseInt(msg.content)
+                        result = videoResult.videos[index - 1]
+                    }
+
+                })
+                .catch((err) => {
+                    console.log(err) 
+                });
                 
                 return result;
             }
@@ -67,11 +76,10 @@ module.exports = {
             if(video) {
                 song = {title: video.title, url: video.url}
             } else {
-                message.reply("An Error happened while finding the video!");
+                return message.reply("Invalid Input or Time Exceeded, Try again");
             }
         }
 
-        if(playlist === false) {
             if(!server_queue) {
                 const queue_constructor = {
                     voice_channel: voice_channel, 
@@ -102,52 +110,10 @@ module.exports = {
                 .setColor("#3f00ff")
                 .setTitle("Added to Queue")
                 .setDescription(`**${song.title}** was added to the queue!`);
-
-                return message.channel.send(addedEmbed);
-            }
-        } else {
-            if(!server_queue) {
-                const queue_constructor = {
-                    voice_channel: voice_channel, 
-                    text_channel: message.channel, 
-                    connection: null,
-                    songs: []
-                }
-                for(i = 0; i < allsongs.length; i++) {
-                    queue_constructor.songs.push(allsongs[i]);
-                }
-
-                const addedEmbed = new Discord.MessageEmbed()
-                .setColor("#3f00ff")
-                .setTitle("Added playlist to Queue")
-                .setDescription(`**${allsongs.length}** tracks was added to the queue!`);
-
-                message.channel.send(addedEmbed);
-            
-                try {
-                    const connection = await voice_channel.join();
-                    connection.voice.setSelfDeaf(true);
-                    queue_constructor.connection = connection;
-                    
-                    queue.queueConstruct(message, queue_constructor);
-                    video_player.player(message.guild, queue_constructor.songs[0], Discord);
-                } catch(err) {
-                    queue.deleteQueue(message);
-                    message.channel.send('There was an error connecting to the server!');
-                    throw err;
-                }
                 
-            } else {
-                server_queue.songs.push(song);
-
-                const addedEmbed = new Discord.MessageEmbed()
-                .setColor("#3f00ff")
-                .setTitle("Added playlist to Queue")
-                .setDescription(`**${allsongs.length}** tracks was added to the queue!`);
-
                 return message.channel.send(addedEmbed);
             }
-        }
+        
         
     },
 

@@ -11,7 +11,7 @@ module.exports = {
         if(server_queue !== undefined) {
         
             const songLeng = server_queue.songs.length;
-            console.log(songLeng);
+            
             const queueListEmbed = new Discord.MessageEmbed() 
                 .setColor("#ffbdcc")
                 .setTitle("List of Queues")

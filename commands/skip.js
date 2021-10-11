@@ -18,7 +18,7 @@ module.exports = {
         const skipEmbed = new Discord.MessageEmbed() 
             .setColor("#faed72")
             .setTitle("Skipped Song")
-            .setDescription(`Loading Next Song!`);
+            .setDescription(`Loading ...`);
 
         message.channel.send(skipEmbed);
         

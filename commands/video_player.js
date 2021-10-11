@@ -1,9 +1,8 @@
 const queue = require('./queueList.js');
 const ytdl = require('ytdl-core');
-const play = require('./play.js');
 
 module.exports = {
-    name: 'Video Player',
+    name: 'videoPlayer',
     description: "Player",
 
     async player(guild, song, Discord) {
@@ -27,7 +26,7 @@ module.exports = {
             .setColor("#8deeee")
             .setTitle("Now Playing")
             .setDescription(`**${song.title}**`);
-            
+
             await song_queue.text_channel.send(playingEmbed);
         }
 
