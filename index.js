@@ -101,6 +101,10 @@ client.on('message' , message => {
             client.commands.get('pick').execute(message , args , command , client , Discord);
             break;
 
+        case "shuffle" :
+            client.commands.get('shuffle').execute(message, Discord);
+            break;
+
         default:  
             message.reply("Command does not Exist!");
     }

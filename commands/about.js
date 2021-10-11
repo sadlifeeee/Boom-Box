@@ -13,6 +13,7 @@ module.exports = {
                 {name : '**about/help**'  ,value: "Displays the list of commands and about this Bot"},
                 {name : '**stop**'  ,value: "Stops the current song and resets the queue"},
                 {name : '**list**'  ,value: "List of songs in the queue"},
+                {name : '**shuffle**'  ,value: "Shuffles the queue"},
                 {name : '**pause**'  ,value: "Pauses the music"},
                 {name : '**resume**'  ,value: "Resumes the music"},
                 {name : '**ping**'  ,value: "Pings the Bot"},

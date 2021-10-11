@@ -15,7 +15,7 @@ module.exports = {
                 return;
             }
 
-            const stream = ytdl(song.url, {filter: 'audioonly' , quality: 'highestaudio' , highWaterMark: 1<<25 , type: 'opus'});
+            const stream = ytdl(song.url, {filter: 'audioonly' , type: 'opus'});
             song_queue.connection.play(stream, {seek: 0, volume: 0.5})
             .on('finish' , () => {
                 song_queue.songs.shift();
