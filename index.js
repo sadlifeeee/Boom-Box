@@ -1,6 +1,10 @@
 const Discord = require('discord.js');
 const dotenv = require("dotenv").config();
 const fs = require('fs');
+const express = require('express');
+
+const app = express();
+
 const client = new Discord.Client({
     restTimeOffset: 0
 });
@@ -15,6 +19,10 @@ fs.readdirSync('./commands/').filter(file => file.endsWith('.js')).forEach(file 
     console.log(`Command ${command.name} loaded`);
 });
 
+// To Keep Bot Up 
+app.get('/' , function(req, res) {
+    console.log("Bot is Alive!!!");
+});
 
 client.once('ready' , async () => {
 
