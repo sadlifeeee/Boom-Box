@@ -106,9 +106,9 @@ client.on('message' , message => {
 });
 
 // Bounding Server (Essentially checking if the server is listening (working))
-app.listen(5000, "localhost", function () {
+app.listen(5000, "0.0.0.0", function () {
     console.log('Server Running at:');
-    console.log('http://' + "localhost" + ':' + 5000);
+    console.log('http://' + "0.0.0.0" + ':' + 5000);
 });
 
 client.login(process.env.BOT_TOKEN);
