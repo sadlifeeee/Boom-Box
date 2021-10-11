@@ -5,6 +5,9 @@ const express = require('express');
 
 const app = express();
 
+port = process.env.PORT;
+hostname = process.env.HOSTNAME;
+
 const client = new Discord.Client({
     restTimeOffset: 0
 });
@@ -106,9 +109,9 @@ client.on('message' , message => {
 });
 
 // Bounding Server (Essentially checking if the server is listening (working))
-app.listen(5000, "0.0.0.0", function () {
+app.listen(port, hostname, function () {
     console.log('Server Running at:');
-    console.log('http://' + "0.0.0.0" + ':' + 5000);
+    console.log('http://' + hostname + ':' + port);
 });
 
 client.login(process.env.BOT_TOKEN);
