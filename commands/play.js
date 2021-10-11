@@ -36,7 +36,7 @@ module.exports = {
 
         if(ytdl.validateURL(args)) {
             const song_info = await ytdl.getInfo(args);
-            song.push({title : song_info.videoDetails.title , url: song_info.videoDetails.video_url});
+            song = {title : song_info.videoDetails.title , url: song_info.videoDetails.video_url};
 
         } else if(ytpl.validateID(args[0].toString())){
             playlist = true;
