@@ -22,6 +22,8 @@ fs.readdirSync('./commands/').filter(file => file.endsWith('.js')).forEach(file 
 // To Keep Bot Up 
 app.get('/' , function(req, res) {
     console.log("Bot is Alive!!!");
+    res.status(200);
+    return res.send("Bot is alive");
 });
 
 client.once('ready' , async () => {
@@ -103,5 +105,10 @@ client.on('message' , message => {
 
 });
 
+// Bounding Server (Essentially checking if the server is listening (working))
+app.listen(5000, "localhost", function () {
+    console.log('Server Running at:');
+    console.log('http://' + "localhost" + ':' + 5000);
+});
 
 client.login(process.env.BOT_TOKEN);
