@@ -15,7 +15,7 @@
     "ytpl": "^2.2.3"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "NODE_OPTIONS='--unhandled-rejections=strict' node index.js"
   },
   "engines": {
     "node": "14.16.1"
