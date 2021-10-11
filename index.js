@@ -7,12 +7,6 @@ const client = new Discord.Client({
 
 client.commands = new Discord.Collection();
 
-client.user.setPresence({
-    activity: {
-        name: `$help for commands`
-    }, status: 'idle'
-})
-
 fs.readdirSync('./commands/').filter(file => file.endsWith('.js')).forEach(file => {
 
     const command = require(`./commands/${file}`);
@@ -23,6 +17,13 @@ fs.readdirSync('./commands/').filter(file => file.endsWith('.js')).forEach(file 
 
 
 client.once('ready' , async () => {
+    
+    client.user.setPresence({
+        activity: {
+            name: `$help for commands`
+        }, status: 'idle'
+    })
+
     console.log('Bot is running!');
 });
 
