@@ -34,11 +34,7 @@ module.exports = {
         let playlist = false;
         let allsongs = [];
 
-        if(ytdl.validateURL(args)) {
-            const song_info = await ytdl.getInfo(args);
-            song = {title : song_info.videoDetails.title , url: song_info.videoDetails.video_url};
-
-        } else if(ytpl.validateID(args[0].toString())){
+        if(ytpl.validateID(args[0].toString())){
             playlist = true;
 
             const video_playlist = async(query) => {
@@ -51,6 +47,10 @@ module.exports = {
 
             await video_playlist(args[0].toString())
             // for people reading this code, there might be a better way to do this but yeah 
+        } else if(ytdl.validateURL(args)) {
+            const song_info = await ytdl.getInfo(args);
+            song = {title : song_info.videoDetails.title , url: song_info.videoDetails.video_url};
+
         } else {
             const video_finder = async(query) => {
                 const videoResult = await ytSearch(query);
