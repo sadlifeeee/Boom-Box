@@ -16,6 +16,8 @@ module.exports = {
             .setDescription(`Thanks for using the bot!`);
 
         message.channel.send(leaveEmbed);
+
+        server_queue.songs = [];
         queue.deleteQueue(message);
         voice_channel.leave()
     }

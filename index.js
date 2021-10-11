@@ -17,11 +17,11 @@ fs.readdirSync('./commands/').filter(file => file.endsWith('.js')).forEach(file 
 
 
 client.once('ready' , async () => {
-    
+
     client.user.setPresence({
         activity: {
             name: `$help for commands`
-        }, status: 'idle'
+        }, status: 'online'
     })
 
     console.log('Bot is running!');
@@ -34,7 +34,6 @@ client.on('message' , message => {
 
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
-
     switch(command) {
 
         case "play":
@@ -73,7 +72,19 @@ client.on('message' , message => {
             client.commands.get('queueList').execute(message, Discord);
             break;
 
-        default: 
+        case "stop" :
+            client.commands.get('stop').execute(message, Discord);
+            break;
+        
+        case "resume" :
+            client.commands.get('resume').execute(message, Discord);
+            break;
+            
+        case "pause":
+            client.commands.get('pause').execute(message, Discord);
+            break;
+
+        default:  
             message.reply("Command does not Exist!");
     }
 

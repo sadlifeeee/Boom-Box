@@ -11,7 +11,7 @@ module.exports = {
         if(server_queue !== undefined) {
         
             const songLeng = server_queue.songs.length;
-
+            console.log(songLeng);
             const queueListEmbed = new Discord.MessageEmbed() 
                 .setColor("#ffbdcc")
                 .setTitle("List of Queues")
@@ -24,7 +24,7 @@ module.exports = {
                 else 
                     max = songLeng;
 
-                for(let i = 1; i <= max; i++) {
+                for(let i = 0; i < max; i++) {
                     
                     let song = server_queue.songs[i].title;
 
@@ -33,7 +33,7 @@ module.exports = {
                         break;
                     }
                     else {
-                        queueListEmbed.addField("Song #" + i , song);
+                        queueListEmbed.addField("Song #" + (i+1) , song);
                     }
                 }
 

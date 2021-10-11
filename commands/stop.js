@@ -23,6 +23,6 @@ module.exports = {
 
         queue.deleteQueue(message);
 
-        server_queue.connect.dispatcher.end();
+        server_queue.connection.dispatcher.end();
     }
 }
