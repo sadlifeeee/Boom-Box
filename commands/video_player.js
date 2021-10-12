@@ -7,8 +7,12 @@ module.exports = {
 
     async player(guild, song, Discord) {
 
+        const song_queue = queue.getQueue().get(guild.id);
+        const connection = song_queue.connection;
+
         const videoPlayer = async(guild, song) => {
-            const song_queue = queue.getQueue().get(guild.id);
+
+            song_queue.connection = connection;
 
             if(!song) {
                 queue.removeQueueID(guild.id);
