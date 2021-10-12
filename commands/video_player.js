@@ -14,6 +14,7 @@ module.exports = {
 
             song_queue.connection = connection;
 
+            console.log(connection);
             if(!song) {
                 queue.removeQueueID(guild.id);
                 return;
