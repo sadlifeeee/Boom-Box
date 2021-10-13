@@ -13,8 +13,7 @@ module.exports = {
         const videoPlayer = async(guild, song) => {
 
             song_queue.connection = connection;
-
-            console.log(connection);
+            
             if(!song) {
                 queue.removeQueueID(guild.id);
                 return;
