@@ -3,6 +3,7 @@ const ytSearch = require('yt-search');
 const queue = require('./queueList.js');
 const video_player = require('./video_player.js');
 const ytpl = require('ytpl');
+const { getData, getPreview, getTracks } = require('spotify-url-info')
 
 module.exports = {
     name : 'play',
@@ -33,6 +34,7 @@ module.exports = {
         let song = {};
         let playlist = false;
         let allsongs = [];
+        let spotifyLink = /((open|play)\.spotify\.com\/)/;
 
         if(ytpl.validateID(args[0].toString())){
             playlist = true;
@@ -51,6 +53,59 @@ module.exports = {
             const song_info = await ytdl.getInfo(args);
             song = {title : song_info.videoDetails.title , url: song_info.videoDetails.video_url};
 
+        } else if(spotifyLink.test(args[0].toString())){
+            
+
+            const video_finder = async(query) => {
+                const videoResult = await ytSearch(query);
+                let result = null;
+
+                if(videoResult.videos.length > 1)
+                    result = videoResult.videos[0];
+                
+                return result;
+            }
+
+            let track = /((open|play)\.spotify\.com\/track\/)/;
+            
+            let playlistSpotify = /((open|play)\.spotify\.com\/playlist\/)/;
+
+            const songPromise = await getData(args[0].toString()).then(data => data)
+            
+            let spotifyTitle = "";
+
+            if(track.test(args[0].toString())) {
+
+                spotifyTitle = songPromise.name + " " + songPromise.artists[0].name
+                
+            } else if(playlistSpotify.test(args[0].toString())) {
+
+                message.channel.send("Loading... (Loading Spotify Playlist may take a while)");
+
+                playlist = true;
+
+                const video_playlist = async() => {
+                    for(i = 0; i < songPromise.tracks.items.length; i++) {
+                        spotifyTitle = songPromise.tracks.items[i].track.artists[0].name + " " + songPromise.tracks.items[i].track.name
+                        const video = await video_finder(spotifyTitle);
+
+                        if(video) {
+                            song = {title: video.title, url: video.url}
+                        } else {
+                            message.reply("An Error happened while finding the video!");
+                        }
+
+                        allsongs.push(song);
+                    }
+                }
+
+                await video_playlist();
+
+            } else {
+                return message.channel.send("Spotify Artist Link are not Supported");
+            }
+        
+        
         } else {
             const video_finder = async(query) => {
                 const videoResult = await ytSearch(query);
@@ -71,6 +126,7 @@ module.exports = {
             }
         }
 
+        console.log(playlist);
         if(playlist === false) {
             if(!server_queue) {
                 const queue_constructor = {

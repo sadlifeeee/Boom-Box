@@ -20,10 +20,10 @@ module.exports = {
             }
 
             const stream = ytdl(song.url, {filter: 'audioonly' , type: 'opus'});
-            song_queue.connection.play(stream, {seek: 0, volume: 0.5})
+            song_queue.connection.play(stream, {seek: 0, volume: 0.1})
             .on('finish' , () => {
-                song_queue.songs.shift();
-                videoPlayer(guild, song_queue.songs[0]);
+                    song_queue.songs.shift();
+                    videoPlayer(guild, song_queue.songs[0]);
             });
             
             const playingEmbed = new Discord.MessageEmbed() 

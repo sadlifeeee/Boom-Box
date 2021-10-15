@@ -6,7 +6,7 @@ module.exports = {
         const aboutEmbed = new Discord.MessageEmbed() 
             .setColor("#da70d6")
             .setTitle("About This Bot & List of Commands")
-            .setDescription(`This Bot is for personal use **ONLY**\n\n**ONLY YOUTUBE WORKS**,Support for Spotify coming soon (pag sinipag hehe)\n\nFound a bug? just chat me 😊👍\n\n**LIST OF COMMANDS**`)
+            .setDescription(`This Bot is for personal use **ONLY**\n\n**Only Works for Spotify and Youtube**\nNote that loading spotify playlist may take a while\n\nFound a bug? just chat me 😊👍\n\n**LIST OF COMMANDS**`)
             .addFields(
                 {name : '**play/queue**' ,value: "Plays the music or adds to the queue"},
                 {name : '**skip/next**'  ,value: "Skips the current song and plays the next song"},
