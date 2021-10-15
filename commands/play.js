@@ -71,17 +71,25 @@ module.exports = {
             let playlistSpotify = /((open|play)\.spotify\.com\/playlist\/)/;
 
             const songPromise = await getData(args[0].toString()).then(data => data)
-            
+
             let spotifyTitle = "";
 
             if(track.test(args[0].toString())) {
 
                 spotifyTitle = songPromise.name + " " + songPromise.artists[0].name
                 
+                const video = await video_finder(spotifyTitle);
+
+                if(video) {
+                    song = {title: songPromise.artists[0].name + "  -  " + songPromise.name, url: video.url}
+                } else {
+                    message.reply("An Error happened while finding the video!");
+                }
+                
             } else if(playlistSpotify.test(args[0].toString())) {
 
-                message.channel.send("Loading... (Loading Spotify Playlist may take a while)");
-
+                message.channel.send("Loading... Note that loading spotify playlist may take a while and is prone to errors");
+                
                 playlist = true;
 
                 const video_playlist = async() => {
@@ -90,7 +98,7 @@ module.exports = {
                         const video = await video_finder(spotifyTitle);
 
                         if(video) {
-                            song = {title: video.title, url: video.url}
+                            song = {title: songPromise.tracks.items[i].track.artists[0].name + "  -  " + songPromise.tracks.items[i].track.name, url: video.url}
                         } else {
                             message.reply("An Error happened while finding the video!");
                         }
@@ -126,7 +134,6 @@ module.exports = {
             }
         }
 
-        console.log(playlist);
         if(playlist === false) {
             if(!server_queue) {
                 const queue_constructor = {
