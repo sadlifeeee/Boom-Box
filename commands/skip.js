@@ -21,8 +21,11 @@ module.exports = {
             .setDescription(`Loading ...`);
 
         message.channel.send(skipEmbed);
-        
+
         server_queue.connection.dispatcher.end();
+
+        if(server_queue.songs.length !== 1)
+            message.channel.send("No More Songs in Queue!")
 
     }
 }
