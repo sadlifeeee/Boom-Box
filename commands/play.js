@@ -193,7 +193,7 @@ module.exports = {
                     queue_constructor.connection = connection;
                     
                     queue.queueConstruct(message, queue_constructor);
-                    video_player.player(message.guild, queue_constructor.songs[0], Discord);
+                    video_player.player(message, message.guild, queue_constructor.songs[0], Discord);
                 } catch(err) {
                     queue.deleteQueue(message);
                     message.channel.send('There was an error connecting to the server!');
