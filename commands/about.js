@@ -6,7 +6,7 @@ module.exports = {
         const aboutEmbed = new Discord.MessageEmbed() 
             .setColor("#da70d6")
             .setTitle("About This Bot & List of Commands")
-            .setDescription(`This Bot is for personal use **ONLY**\n\n**Only Works for Spotify and Youtube**\nNote that loading spotify playlist may take a while and is prone to errors but still **WORKS**\n\nFound a bug? just chat me 😊👍\n**KNOWN ISSUES**\nMusic Stops while playing - This issue happens because the bot is being hosted in a free server as such there is no way to fix this other than hosting it in a better server\n**What to do if this happens?**\nTry $leave then play the song again DO NOT use $stop as this will kill the bot and might take a while to reboot\n\n**LIST OF COMMANDS**`)
+            .setDescription(`This Bot is for personal use **ONLY**\n\n**Youtube and Spotify is supported**\n\nFound a bug? just chat me 😊👍\n**KNOWN ISSUES**\n\n**1.**  Music Stops while playing - This issue happens because the bot is being hosted in a free server as such there is no way to fix this other than hosting it in a better server\n**What to do if this happens?**\nTry $leave then play the song again DO NOT use $stop as this will kill the bot and might take a while to reboot\n\n**2.** Spotify may play the wrong music (low chance of happening but does happen) - still finding a way to fix this\n\n**LIST OF COMMANDS**`)
             .addFields(
                 {name : '**play/queue**' ,value: "Plays the music or adds to the queue"},
                 {name : '**skip/next**'  ,value: "Skips the current song and plays the next song"},

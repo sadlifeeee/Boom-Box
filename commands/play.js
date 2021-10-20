@@ -87,21 +87,14 @@ module.exports = {
                 }
                 
             } else if(playlistSpotify.test(args[0].toString())) {
-
-                message.channel.send("Loading... Note that loading spotify playlist may take a while and is prone to errors");
                 
                 playlist = true;
 
                 const video_playlist = async() => {
                     for(i = 0; i < songPromise.tracks.items.length; i++) {
-                        spotifyTitle = songPromise.tracks.items[i].track.artists[0].name + " " + songPromise.tracks.items[i].track.name
-                        const video = await video_finder(spotifyTitle);
+                        spotifyTitle = songPromise.tracks.items[i].track.artists[0].name + "  -  " + songPromise.tracks.items[i].track.name
 
-                        if(video) {
-                            song = {title: songPromise.tracks.items[i].track.artists[0].name + "  -  " + songPromise.tracks.items[i].track.name, url: video.url}
-                        } else {
-                            message.reply("An Error happened while finding the video!");
-                        }
+                            song = {title: spotifyTitle, url: "playlist"}
 
                         allsongs.push(song);
                     }

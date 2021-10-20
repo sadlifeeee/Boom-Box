@@ -1,5 +1,6 @@
 const queue = require('./queueList.js');
 const ytdl = require('ytdl-core');
+const ytSearch = require('yt-search');
 
 module.exports = {
     name: 'videoPlayer',
@@ -9,12 +10,19 @@ module.exports = {
         
         let timeoutID;
         const song_queue = queue.getQueue().get(guild.id);
-        const connection = song_queue.connection;
         const voice_channel = message.member.voice.channel;
 
         const videoPlayer = async(guild, song) => {
+           
+            const video_finder = async(query) => {
+                const videoResult = await ytSearch(query);
+                let result = null;
 
-            song_queue.connection = connection;
+                if(videoResult.videos.length > 1)
+                    result = videoResult.videos[0];
+                
+                return result.url;
+            }
 
             clearTimeout(timeoutID)
             timeoutID = undefined;
@@ -22,6 +30,8 @@ module.exports = {
             if(!song) {
                 queue.removeQueueID(guild.id);
                 return;
+            } else if(song.url === "playlist") {
+                song.url = await video_finder(song.title);
             }
 
             const stream = ytdl(song.url, {filter: 'audioonly' , type: 'opus'});
