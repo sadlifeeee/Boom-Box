@@ -4,6 +4,7 @@
   "description": "Discord Bot Boom Box",
   "main": "index.js",
   "dependencies": {
+    "@discordjs/opus": "^0.6.0",
     "discord-ytdl-core": "^5.0.4",
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
