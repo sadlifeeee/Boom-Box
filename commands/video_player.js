@@ -8,13 +8,22 @@ module.exports = {
     description: "Player",
 
     async player(message, guild, song, Discord) {
-        
+
         let timeoutID;
         const song_queue = queue.getQueue().get(guild.id);
         const voice_channel = message.member.voice.channel;
 
+        const connection = await voice_channel.join();
+        connection.voice.setSelfDeaf(true);
+        song_queue.connection = connection;
+
+
         const videoPlayer = async(guild, song) => {
            
+            const connection = await voice_channel.join();
+            connection.voice.setSelfDeaf(true);
+            song_queue.connection = connection;
+            
             const video_finder = async(query) => {
                 const videoResult = await ytSearch(query);
                 let result = null;
@@ -38,7 +47,6 @@ module.exports = {
             let stream = ytdlDisc(song.url, {
                 filter: "audioonly",
                 opusEncoded: true,
-                encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200']
             });
 
             song_queue.connection.play(stream, {seek: 0, volume: 0.45, type: "opus"})
