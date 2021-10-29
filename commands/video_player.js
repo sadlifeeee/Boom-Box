@@ -1,6 +1,7 @@
 const queue = require('./queueList.js');
 const ytdl = require('ytdl-core');
 const ytSearch = require('yt-search');
+const ytdlDisc = require('discord-ytdl-core');
 
 module.exports = {
     name: 'videoPlayer',
@@ -34,7 +35,7 @@ module.exports = {
                 song.url = await video_finder(song.title);
             }
 
-            let stream = ytdl(song.url, {
+            let stream = ytdlDisc(song.url, {
                 filter: "audioonly",
                 opusEncoded: true,
                 encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200']
