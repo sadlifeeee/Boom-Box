@@ -24,5 +24,6 @@ module.exports = {
         queue.deleteQueue(message);
 
         server_queue.connection.dispatcher.end();
+        timeoutID = setTimeout(() => {voice_channel.leave()}, 10000)
     }
 }

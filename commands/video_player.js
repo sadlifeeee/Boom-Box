@@ -34,8 +34,13 @@ module.exports = {
                 song.url = await video_finder(song.title);
             }
 
-            const stream = ytdl(song.url, {filter: 'audioonly' , type: 'opus'});
-            song_queue.connection.play(stream, {seek: 0, volume: 0.45})
+            let stream = ytdl(song.url, {
+                filter: "audioonly",
+                opusEncoded: true,
+                encoderArgs: ['-af', 'bass=g=10,dynaudnorm=f=200']
+            });
+
+            song_queue.connection.play(stream, {seek: 0, volume: 0.45, type: "opus"})
             .on('finish' , () => {
                 if(song_queue.songs.length !== 1) {
                     song_queue.songs.shift();
