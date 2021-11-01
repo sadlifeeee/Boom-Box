@@ -194,7 +194,9 @@ module.exports = {
                 }
                 
             } else {
-                server_queue.songs.push(song);
+                 for(i = 0; i < allsongs.length; i++) {
+                    server_queue.songs.push(allsongs[i]);
+                }
 
                 const addedEmbed = new Discord.MessageEmbed()
                 .setColor("#3f00ff")
