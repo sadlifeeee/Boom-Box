@@ -3,6 +3,6 @@ module.exports = {
     description: "Ping Bot!",
 
     execute(message, args) {
-        message.reply('Pong!');
+        message.channel.send(`Pong! 🏓Latency is ${message.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(message.client.ws.ping)}ms`);
     }
 }

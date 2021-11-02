@@ -53,7 +53,7 @@ module.exports = {
             .on('finish' , () => {
                 if(song_queue.songs.length !== 1) {
                     song_queue.songs.shift();
-                    videoPlayer(guild, song_queue.songs[0]);
+                    return videoPlayer(guild, song_queue.songs[0]);
                 } else {
                     queue.removeQueueID(guild.id);
                     timeoutID = setTimeout(() => {voice_channel.leave()}, 10000) // Dies in 3 Minute for heroku not to kill the connection and cause a bug to happen
