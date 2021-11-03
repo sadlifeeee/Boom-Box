@@ -139,9 +139,6 @@ module.exports = {
                 queue_constructor.songs.push(song);
 
                 try {
-                    const connection = await voice_channel.join();
-                    connection.voice.setSelfDeaf(true);
-                    queue_constructor.connection = connection;
                     
                     queue.queueConstruct(message, queue_constructor);
                     video_player.player(message , message.guild, queue_constructor.songs[0], Discord);
@@ -181,9 +178,6 @@ module.exports = {
                 message.channel.send(addedEmbed);
             
                 try {
-                    const connection = await voice_channel.join();
-                    connection.voice.setSelfDeaf(true);
-                    queue_constructor.connection = connection;
                     
                     queue.queueConstruct(message, queue_constructor);
                     video_player.player(message, message.guild, queue_constructor.songs[0], Discord);

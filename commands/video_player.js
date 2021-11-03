@@ -19,10 +19,6 @@ module.exports = {
 
 
         const videoPlayer = async(guild, song) => {
-           
-            const connection = await voice_channel.join();
-            connection.voice.setSelfDeaf(true);
-            song_queue.connection = connection;
             
             const video_finder = async(query) => {
                 const videoResult = await ytSearch(query);
@@ -46,10 +42,19 @@ module.exports = {
 
             let stream = ytdlDisc(song.url, {
                 filter: "audioonly",
+                quality: "highestaudio",
                 opusEncoded: true,
             });
 
-            song_queue.connection.play(stream, {seek: 0, volume: 0.45, type: "opus"})
+            song_queue.connection.play(stream, {seek: 0, volume: 0.45, type: "opus", bitrate: 'auto', fec: true})
+            .on('start' , () => {
+                const playingEmbed = new Discord.MessageEmbed() 
+                .setColor("#8deeee")
+                .setTitle("Now Playing")
+                .setDescription(`**${song.title}**`);
+
+                song_queue.text_channel.send(playingEmbed);
+            })
             .on('finish' , () => {
                 if(song_queue.songs.length !== 1) {
                     song_queue.songs.shift();
@@ -60,12 +65,6 @@ module.exports = {
                 }
             });
             
-            const playingEmbed = new Discord.MessageEmbed() 
-            .setColor("#8deeee")
-            .setTitle("Now Playing")
-            .setDescription(`**${song.title}**`);
-
-            await song_queue.text_channel.send(playingEmbed);
         }
 
         videoPlayer(guild, song);
