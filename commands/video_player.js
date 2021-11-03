@@ -58,6 +58,7 @@ module.exports = {
             .on('finish' , () => {
                 if(song_queue.songs.length !== 1) {
                     song_queue.songs.shift();
+                    song_queue.connection.dispatcher.end();
                     return videoPlayer(guild, song_queue.songs[0]);
                 } else {
                     queue.removeQueueID(guild.id);
