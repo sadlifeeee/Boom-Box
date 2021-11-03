@@ -1,7 +1,7 @@
 const queue = require('./queueList.js');
 const ytdl = require('ytdl-core');
 const ytSearch = require('yt-search');
-const ytdlDisc = require('discord-ytdl-core');
+const ytdlDisc = require('ytdl-core-discord');
 
 module.exports = {
     name: 'videoPlayer',
@@ -39,20 +39,18 @@ module.exports = {
                 song.url = await video_finder(song.title);
             }
 
-            let stream = ytdlDisc(song.url, {
+            let stream = await ytdlDisc(song.url, {
                 filter: "audioonly",
                 opusEncoded: true,
             });
 
 
-            if(connection != null) {
-                song_queue.connection.play(stream, {seek: 0, volume: 0.45, type: "opus", bitrate: 'auto', fec: true})
+                song_queue.connection.play(stream, {seek: 0, volume: 0.45, type: "opus"})
                 .on('start' , () => {
                     const playingEmbed = new Discord.MessageEmbed() 
                     .setColor("#8deeee")
                     .setTitle("Now Playing")
                     .setDescription(`**${song.title}**`);
-
                     song_queue.text_channel.send(playingEmbed);
                 })
                 .on('finish' , () => {
@@ -64,13 +62,6 @@ module.exports = {
                         timeoutID = setTimeout(() => {voice_channel.leave()}, 10000) // Dies in 3 Minute for heroku not to kill the connection and cause a bug to happen
                     }
                 });
-            } else {
-                const connection = await voice_channel.join();
-                connection.voice.setSelfDeaf(true);
-                song_queue.connection = connection;
-                return videoPlayer(guild, song_queue.songs[0]);
-            }
-
 
 
         }
