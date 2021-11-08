@@ -42,10 +42,10 @@ module.exports = {
             let stream = await ytdlDisc(song.url, {
                 filter: "audioonly",
                 opusEncoded: true,
+                highWaterMark: 1 << 25,
             });
-
-
-                song_queue.connection.play(stream, {seek: 0, volume: 0.45, type: "opus"})
+            
+            song_queue.connection.play(stream, {seek: 0, volume: 0.45, type: "opus"})
                 .on('start' , () => {
                     const playingEmbed = new Discord.MessageEmbed() 
                     .setColor("#8deeee")
