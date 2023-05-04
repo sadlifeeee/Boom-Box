@@ -1,121 +1,27 @@
-const Discord = require('discord.js');
+const { Collection, Client, IntentsBitField } = require('discord.js');
 const dotenv = require("dotenv").config();
+const eventHandler = require('./handlers/eventHandler');
 const fs = require('fs');
-const express = require('express');
 
-const app = express();
-
-port = process.env.PORT;
-hostname = process.env.HOSTNAME;
-
-const client = new Discord.Client({
-    restTimeOffset: 0
+const client = new Client({
+    restTimeOffset: 0,
+    intents: [
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildMembers,
+        IntentsBitField.Flags.GuildMessages,
+        IntentsBitField.Flags.MessageContent
+    ]
 });
 
-client.commands = new Discord.Collection();
+client.commands = new Collection();
 
-fs.readdirSync('./commands/').filter(file => file.endsWith('.js')).forEach(file => {
-
-    const command = require(`./commands/${file}`);
+fs.readdirSync('./commands/all_commands').filter(file => file.endsWith('.js')).forEach(file => {
+    const command = require(`./commands/all_commands/${file}`);
     client.commands.set(command.name , command);
-
     console.log(`Command ${command.name} loaded`);
 });
 
-// To Keep Bot Up 
-app.get('/' , function(req, res) {
-    console.log("Bot is Alive!!!");
-    res.status(200);
-    return res.send("Bot is alive");
-});
+eventHandler(client);
 
-client.once('ready' , async () => {
-
-    client.user.setPresence({
-        activity: {
-            name: `$help for commands`
-        }, status: 'online'
-    })
-
-    console.log('Bot is running!');
-});
-
-const prefix = "$";
-
-client.on('message' , message => {
-    if(!message.content.startsWith(prefix) || message.author.bot) return;
-
-    const args = message.content.slice(prefix.length).split(/ +/);
-    const command = args.shift().toLowerCase();
-    switch(command) {
-
-        case "play":
-        case "p":
-        case "queue":
-        case "q":
-        {
-            client.commands.get('play').execute(message, args, command, client, Discord);
-            break;
-        }
-
-        case "skip":
-        case "next":
-        case "n": 
-        {
-            client.commands.get('skip').execute(message, Discord);
-            break;
-        }
-
-        case "ping" :
-            client.commands.get('ping').execute(message, args);
-            break;
-
-        case "leave" :
-            client.commands.get('leave').execute(message, Discord);
-            break;
-
-        case "about":
-        case "help": 
-        {
-            client.commands.get('about').execute(message, Discord);
-            break;
-        }
-
-        case "list" :
-            client.commands.get('queueList').execute(message, Discord);
-            break;
-
-        case "stop" :
-            client.commands.get('stop').execute(message, Discord);
-            break;
-        
-        case "resume" :
-            client.commands.get('resume').execute(message, Discord);
-            break;
-            
-        case "pause":
-            client.commands.get('pause').execute(message, Discord);
-            break;
-
-        case "pick":
-            client.commands.get('pick').execute(message , args , command , client , Discord);
-            break;
-
-        case "shuffle" :
-            client.commands.get('shuffle').execute(message, Discord);
-            break;
-        
-        default:  
-            message.reply("Command does not Exist!");
-    }
-
-
-});
-
-// Bounding Server (Essentially checking if the server is listening (working))
-app.listen(port, hostname, function () {
-    console.log('Server Running at:');
-    console.log('http://' + hostname + ':' + port);
-});
 
 client.login(process.env.BOT_TOKEN);
