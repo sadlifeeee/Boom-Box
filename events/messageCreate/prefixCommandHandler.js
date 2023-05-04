@@ -63,7 +63,7 @@ module.exports = async (client, message) => {
             break;
 
         default:  
-            message.reply("What you smoking? This Command does not Exist!");
+            message.reply("What you smoking? This command does not exist!");
     }
 
 };

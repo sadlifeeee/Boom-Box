@@ -15,21 +15,46 @@ module.exports = {
 
     execute: async (client, message, args) => {
 
-        client.DisTube.play(message.member.voice.channel , args.join(" "), {
-            member: message.member,
-            textChannel:message.channel,
-            message
-        });
+        const queue = client.DisTube.getQueue(message)
 
-        client.DisTube.on("playSong" , (queue, song) => {
+        if(!queue) {
 
-            const playingEmbed = new EmbedBuilder() 
+            try {
+                
+                client.DisTube.play(message.member.voice.channel , args.join(" "), {
+                    member: message.member,
+                    textChannel:message.channel,
+                    message
+                });
+                
+                client.DisTube.on("playSong" , (queue, song) => {
+                    const playingEmbed = new EmbedBuilder() 
+                            .setColor("#8deeee")
+                            .setTitle("Now Playing")
+                            .setDescription(`**${song.name}** **(${song.formattedDuration})**`);
+
+                    
+                    queue.textChannel.send({ embeds: [playingEmbed] });
+                })
+
+            } catch(DisTubeError) {
+
+                const playingEmbed = new EmbedBuilder() 
                     .setColor("#8deeee")
-                    .setTitle("Now Playing")
-                    .setDescription(`**${song.name}** **(${song.formattedDuration})**`);
+                    .setTitle("Not Found")
+                    .setDescription(`**URL / Music cannot be found**`);
 
+                    
+                queue.textChannel.send({ embeds: [playingEmbed] });
+            }
 
-            queue.textChannel.send({ embeds: [playingEmbed] });
-        })
+            
+
+        } else {
+            
+        }
+
+        
+        
     }
 };
