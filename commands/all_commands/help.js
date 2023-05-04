@@ -36,7 +36,7 @@ module.exports = {
         interaction.reply({ embeds: [aboutEmbed]});
     },
   
-    execute: (client, message) => {
+    execute: (client, message, args) => {
         const aboutEmbed = generateAboutEmbed();
         message.channel.send({ embeds: [aboutEmbed] });
     },
