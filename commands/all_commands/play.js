@@ -29,11 +29,9 @@ module.exports = {
             return message.reply("What are you gonna play? Nothing?")
         }
 
-        const playMusic = async (client, message, server_queue) => {
+        const playMusic = async (client, message, server_queue, length) => {
 
-            let song = server_queue.songs[0]
-            if(song) {
-                
+            for(i = 0; i < length; i++) {
                 await client.DisTube.play(message.member.voice.channel , server_queue.songs.shift(), {
                     member: message.member,
                     textChannel:message.channel,
@@ -46,17 +44,13 @@ module.exports = {
 
                     message.channel.send({ embeds: [addedEmbed]})
                 });
-                
-
-            } else {
-                queues.deleteQueue(message);
-            } 
+            }
             
         };  
 
         // START
 
-        //try {
+        try {
 
             let spotifyLink = /((open|play)\.spotify\.com\/)/;
 
@@ -82,7 +76,7 @@ module.exports = {
                         for(i = 0; i < playlistResult.items.length; i++) {
                             queue_constructor.songs.push(playlistResult.items[i].title);
                         }
-
+                        
                         return playlistResult.items.length;
                     }
 
@@ -148,7 +142,7 @@ module.exports = {
                         }
 
                         await video_playlist();
-
+                        
                         const addedEmbed = new EmbedBuilder()
                             .setColor("#3f00ff")
                             .setTitle("Added to Queue")
@@ -174,12 +168,7 @@ module.exports = {
 
                 queue.queueConstruct(message, queue_constructor);
                 server_queue = queue.getQueue().get(message.guild.id);
-                
-                client.DisTube.on("finishSong", (q, song) => {
-                    console.log(q.songs.length);
-                });
-
-                await playMusic(client, message, server_queue);
+                await playMusic(client, message, server_queue, server_queue.songs.length);
                 
             } else {
 
@@ -196,7 +185,7 @@ module.exports = {
                         for(i = 0; i < playlistResult.items.length; i++) {
                             server_queue.songs.push(playlistResult.items[i].title);
                         }
-
+                    
                         return playlistResult.items.length;
                     }
 
@@ -306,13 +295,13 @@ module.exports = {
                     message.channel.send({embeds: [addedEmbed]});
                 }
 
-                await playMusic(client, message, server_queue);
+                await playMusic(client, message, server_queue, server_queue.songs.length);
 
             }   
 
-        //} catch(err) {
-        //    message.channel.send(`An error occured to the bot while trying to queue, report this to the developer! \n${err}`)
-        //}
+        } catch(err) {
+            message.channel.send(`An error occured to the bot while trying to queue, report this to the developer! \n${err}`)
+        }
         
     }
 };

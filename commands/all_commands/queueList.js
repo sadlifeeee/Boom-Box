@@ -67,10 +67,6 @@ module.exports = {
         queue.delete(message.guild.id);
     },
 
-    shiftSong(id, song) {
-        console.log(queue.get(id))
-        queue.get(id).songs.shift();
-    }
 
 
 }
