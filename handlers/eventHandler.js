@@ -3,7 +3,6 @@ const path = require('path');
 const { Collection , EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const { DisTube } = require("distube");
-const queue = require('../commands/all_commands/queueList');
 
 module.exports = (client) => {
 
@@ -22,10 +21,6 @@ module.exports = (client) => {
             .setDescription(`**${song.name}**`);
         
         queue.textChannel.send({ embeds: [playingEmbed]})
-    });
-
-    client.DisTube.on("finishSong", (queue, song) => {
-        queue.getQueue().shiftSong(queue.textChannel.guild.id, song);
     });
 
     const eventFolders = getAllFiles(path.join(__dirname, '..', 'events') , true);

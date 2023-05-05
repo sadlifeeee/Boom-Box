@@ -17,7 +17,23 @@ module.exports = {
         
         if (!queueDisTube) return message.channel.send(`There is nothing in queue right now`)
 
-        await queueDisTube.skip()
+        if(queueDisTube.songs.length === 0) {
+            const skipEmbed = new EmbedBuilder() 
+                .setColor("#faed72")
+                .setTitle("Nothing to Skip")
+                .setDescription(`......`);
+
+            return message.channel.send({ embeds: [skipEmbed]})
+            
+        }
+
+
+        if(queueDisTube.songs.length === 1) {
+             queueDisTube.stop();
+             queue.deleteQueue(message);
+        } else {
+            await queueDisTube.skip();
+        }
 
         const skipEmbed = new EmbedBuilder() 
             .setColor("#faed72")
@@ -25,8 +41,6 @@ module.exports = {
             .setDescription(`Loading ...`);
 
         message.channel.send({ embeds: [skipEmbed]})
-
-        queue.deleteQueue(message);
 
     } 
 }

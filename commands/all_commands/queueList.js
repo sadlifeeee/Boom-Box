@@ -1,4 +1,4 @@
-const queue = new Map();
+let queue = new Map();
 const {EmbedBuilder} = require('discord.js');
 
 module.exports = {
@@ -12,12 +12,10 @@ module.exports = {
     execute (client, message , args) {
 
         const queueDisTube = client.DisTube.getQueue(message)
-        
+
         if (!queueDisTube) return message.channel.send(`There is nothing in queue right now`)
 
-        const server_queue = queue.get(message.guild.id);
-
-        const songLeng = server_queue.songs.length;
+        const songLeng = queueDisTube.songs.length;
 
         const queueListEmbed = new EmbedBuilder() 
             .setColor("#ffbdcc")
@@ -33,8 +31,8 @@ module.exports = {
 
             for(let i = 0; i < max; i++) {
                     
-                let song = server_queue.songs[i];
-
+                let song = queueDisTube.songs[i].name;
+                
                 if(song === undefined) {
                     queueListEmbed.addFields({name: `No More Songs`, value:"Try Queuing a song!"});
                     break;
@@ -70,6 +68,7 @@ module.exports = {
     },
 
     shiftSong(id, song) {
+        console.log(queue.get(id))
         queue.get(id).songs.shift();
     }
 
