@@ -5,15 +5,19 @@ module.exports = {
     name: 'resume',
     description: "resumes the paused song",
     inVoiceChannel: true,
-  
+    
+    callback: (client, interaction) => {
+        interaction.reply(`Use the Prefix $`);
+    },
+
     execute : async (client, message, args) => {
         
-        const queue = client.DisTube.getQueue(message)
+        const queueDisTube = client.DisTube.getQueue(message)
         
-        if (!queue) return message.channel.send(`There is nothing in the queue right now!`)
+        if (!queueDisTube) return message.channel.send(`There is nothing in queue right now`)
         
-        if (queue.paused) {
-            queue.resume()
+        if (queueDisTube.paused) {
+            queueDisTube.resume()
 
             const resumeEmbed = new EmbedBuilder() 
                 .setColor("#c6e2ff")

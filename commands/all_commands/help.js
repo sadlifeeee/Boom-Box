@@ -37,6 +37,7 @@ module.exports = {
     },
   
     execute: (client, message, args) => {
+        
         const aboutEmbed = generateAboutEmbed();
         message.channel.send({ embeds: [aboutEmbed] });
     },

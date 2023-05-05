@@ -62,6 +62,22 @@ module.exports = async (client, message) => {
                 client.commands.get('leave').execute(client, message, args);
             break;
 
+        case "list" :
+        case "queuelist":
+        {
+            if(serverChecker(message))
+                client.commands.get('queuelist').execute(client, message, args);
+            break;
+        }
+        case "skip":
+        case "next":
+        case "n": 
+        {   
+            if(serverChecker(message))
+                client.commands.get('next').execute(client, message, args);
+            break;
+        }
+
         default:  
             message.reply("What you smoking? This command does not exist!");
     }

@@ -1,8 +1,9 @@
 const getAllFiles = require('../utils/getAllFiles');
 const path = require('path');
-const { Collection } = require('discord.js');
+const { Collection , EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const { DisTube } = require("distube");
+const queue = require('../commands/all_commands/queueList');
 
 module.exports = (client) => {
 
@@ -12,6 +13,19 @@ module.exports = (client) => {
         emptyCooldown: 30,
         leaveOnFinish: true,
         nsfw: true,
+    });
+
+    client.DisTube.on("playSong", (queue, song) => {
+        const playingEmbed = new EmbedBuilder() 
+            .setColor("#8deeee")
+            .setTitle("Now Playing")
+            .setDescription(`**${song.name}**`);
+        
+        queue.textChannel.send({ embeds: [playingEmbed]})
+    });
+
+    client.DisTube.on("finishSong", (queue, song) => {
+        queue.getQueue().shiftSong(queue.textChannel.guild.id, song);
     });
 
     const eventFolders = getAllFiles(path.join(__dirname, '..', 'events') , true);

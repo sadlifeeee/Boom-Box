@@ -1,10 +1,10 @@
 const { DisTube } = require("distube");
-const { EmbedBuilder, Embed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const queue = require('./queueList');
 
 module.exports = {
-    name: 'stop',
-    description: "stops the music",
+    name: 'next',
+    description: "skips the song",
     inVoiceChannel: true,
     
     callback: (client, interaction) => {
@@ -16,15 +16,15 @@ module.exports = {
         const queueDisTube = client.DisTube.getQueue(message)
         
         if (!queueDisTube) return message.channel.send(`There is nothing in queue right now`)
-        
-        queueDisTube.stop();
 
-        const stopEmbed = new EmbedBuilder() 
-            .setColor("#b7235b")
-            .setTitle("Stopped Music!")
-            .setDescription(`Music Stopped and Resetting Queue`);
+        await queueDisTube.skip()
 
-        message.channel.send({ embeds: [stopEmbed]})
+        const skipEmbed = new EmbedBuilder() 
+            .setColor("#faed72")
+            .setTitle("Skipped Song")
+            .setDescription(`Loading ...`);
+
+        message.channel.send({ embeds: [skipEmbed]})
 
         queue.deleteQueue(message);
 
