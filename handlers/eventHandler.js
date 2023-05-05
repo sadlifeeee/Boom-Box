@@ -15,7 +15,7 @@ module.exports = (client) => {
     });
 
     client.DisTube.on("playSong", (queue, song) => {
-        const playingEmbed = new EmbedBuilder() 
+        const playingEmbed = new EmbedBuilder()
             .setColor("#8deeee")
             .setTitle("Now Playing")
             .setDescription(`**${song.name}**`);

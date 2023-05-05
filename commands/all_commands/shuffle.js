@@ -1,3 +1,5 @@
+const { EmbedBuilder } = require('discord.js') 
+
 module.exports = {
     name: 'shuffle',
     description: "shuffles the queue",
@@ -8,9 +10,9 @@ module.exports = {
     },
 
     execute: async (client, message , args) => {
-        const queue = client.distube.getQueue(message)
+        const queue = client.DisTube.getQueue(message)
 
-        if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing in the queue right now!`)
+        if (!queue) return message.channel.send(`There is nothing in the queue right now!`)
 
         queue.shuffle()
 

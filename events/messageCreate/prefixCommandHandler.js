@@ -79,7 +79,7 @@ module.exports = async (client, message) => {
         }
 
         case "shuffle" :
-            client.commands.get('shuffle').execute(message, Discord);
+            client.commands.get('shuffle').execute(client, message, args);
             break;
 
         default:  

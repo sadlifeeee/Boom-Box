@@ -29,23 +29,21 @@ module.exports = {
             return message.reply("What are you gonna play? Nothing?")
         }
 
-        const playMusic = async (client, message, server_queue, length) => {
+        const playMusic = async (client, message, server_queue) => {
 
-            for(i = 0; i < length; i++) {
-                await client.DisTube.play(message.member.voice.channel , server_queue.songs.shift(), {
-                    member: message.member,
-                    textChannel:message.channel,
-                    message
-                }).catch(err => {
-                    const addedEmbed = new EmbedBuilder()
-                        .setColor("#FF0000")
-                        .setTitle("Not Found")
-                        .setDescription(`**URL / Song cannot be found**`);
+            await client.DisTube.play(message.member.voice.channel , server_queue.songs.shift(), {
+                member: message.member,
+                textChannel:message.channel,
+                message
+            }).catch(err => {
+                const addedEmbed = new EmbedBuilder()
+                    .setColor("#FF0000")
+                    .setTitle("Not Found")
+                    .setDescription(`**URL / Song cannot be found**`);
 
-                    message.channel.send({ embeds: [addedEmbed]})
-                });
-            }
-            
+                message.channel.send({ embeds: [addedEmbed]})
+            });
+
         };  
 
         // START
@@ -74,7 +72,7 @@ module.exports = {
                         const playlistResult = await ytpl(query, { limit: Infinity });
                         
                         for(i = 0; i < playlistResult.items.length; i++) {
-                            queue_constructor.songs.push(playlistResult.items[i].title);
+                            queue_constructor.songs.push(playlistResult.items[i].url);
                         }
                         
                         return playlistResult.items.length;
@@ -94,7 +92,7 @@ module.exports = {
                 } else if(ytdl.validateURL(args.toString())) {
 
                     const song_info = await ytdl.getInfo(args.toString());
-                    queue_constructor.songs.push(song_info.videoDetails.title)
+                    queue_constructor.songs.push(song_info.videoDetails.url)
             
 
                 // Spotify Link Checker
@@ -168,7 +166,7 @@ module.exports = {
 
                 queue.queueConstruct(message, queue_constructor);
                 server_queue = queue.getQueue().get(message.guild.id);
-                await playMusic(client, message, server_queue, server_queue.songs.length);
+                await playMusic(client, message, server_queue);
                 
             } else {
 
@@ -183,7 +181,7 @@ module.exports = {
                         const playlistResult = await ytpl(query, { limit: Infinity });
                         
                         for(i = 0; i < playlistResult.items.length; i++) {
-                            server_queue.songs.push(playlistResult.items[i].title);
+                            server_queue.songs.push(playlistResult.items[i].url);
                         }
                     
                         return playlistResult.items.length;
@@ -203,7 +201,7 @@ module.exports = {
                 } else if(ytdl.validateURL(args.toString())) {
 
                     const song_info = await ytdl.getInfo(args.toString());
-                    server_queue.songs.push(song_info.videoDetails.title)
+                    server_queue.songs.push(song_info.videoDetails.url)
                     
                     const addedEmbed = new EmbedBuilder()
                         .setColor("#3f00ff")
@@ -295,7 +293,7 @@ module.exports = {
                     message.channel.send({embeds: [addedEmbed]});
                 }
 
-                await playMusic(client, message, server_queue, server_queue.songs.length);
+                await playMusic(client, message, server_queue);
 
             }   
 

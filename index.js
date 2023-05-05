@@ -4,7 +4,7 @@ const eventHandler = require('./handlers/eventHandler');
 const fs = require('fs');
 
 const client = new Client({
-    restTimeOffset: 3,
+    restTimeOffset: 5,
     intents: [
         IntentsBitField.Flags.Guilds,
         IntentsBitField.Flags.GuildMembers,
