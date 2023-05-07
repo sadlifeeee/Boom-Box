@@ -79,7 +79,17 @@ module.exports = async (client, message) => {
         }
 
         case "shuffle" :
-            client.commands.get('shuffle').execute(client, message, args);
+            if(serverChecker(message))
+                client.commands.get('shuffle').execute(client, message, args);
+            break;
+
+        case "invite" :
+            client.commands.get('invite').execute(client, message, args);
+            break;
+
+        case "loop" :
+            if(serverChecker(message))
+                client.commands.get('loop').execute(client, message, args);
             break;
 
         default:  
