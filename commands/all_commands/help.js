@@ -16,6 +16,8 @@ const generateAboutEmbed = () => {
             {name : '**resume**'  ,value: "Resumes the music"},
             {name : '**ping**'  ,value: "Pings the Bot"},
             {name : '**leave**'  ,value: "The Bot leaves the voice channel"},
+            {name : '**loop**'  ,value: "Options are (off, single, queue)"},
+            {name : '**invite**'  ,value: "invite link for other servers"},
         )   
         .setFooter({text: "Developed by Jerickson Lee 👍"});
                 

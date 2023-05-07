@@ -37,7 +37,7 @@ module.exports = {
         const loopEmbed = new EmbedBuilder() 
             .setColor("#c6e2ff")
             .setTitle("Loop mode")
-            .setDescription(`Mode is set to ${mode}`);
+            .setDescription(`Mode is set to ${args}`);
 
         message.channel.send({ embeds: [loopEmbed]})
         
