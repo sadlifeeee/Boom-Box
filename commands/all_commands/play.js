@@ -200,7 +200,7 @@ module.exports = {
                 } else if(ytdl.validateURL(args.toString())) {
 
                     const song_info = await ytdl.getInfo(args.toString());
-                    server_queue.songs.push(song_info.videoDetails.url)
+                    server_queue.songs.push(song_info.videoDetails.video_url)
                     
                     const addedEmbed = new EmbedBuilder()
                         .setColor("#3f00ff")
