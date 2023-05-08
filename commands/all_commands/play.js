@@ -92,9 +92,8 @@ module.exports = {
                 } else if(ytdl.validateURL(args.toString())) {
 
                     const song_info = await ytdl.getInfo(args.toString());
-                    queue_constructor.songs.push(song_info.videoDetails.url)
+                    queue_constructor.songs.push(song_info.videoDetails.video_url)
             
-
                 // Spotify Link Checker
                 }  else if(spotifyLink.test(args.toString())){
 
