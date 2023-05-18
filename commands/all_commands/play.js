@@ -23,6 +23,11 @@ module.exports = {
 
     execute: async (client, message, args) => {
 
+        const queueDis = client.DisTube.getQueue(message)
+
+        if(queueDis === undefined)
+            queue.deleteQueue(message);
+
         let server_queue = queue.getQueue().get(message.guild.id);
 
         if(args.join('').trim() === '') {
@@ -35,7 +40,7 @@ module.exports = {
                 member: message.member,
                 textChannel:message.channel,
                 message
-            }).catch(err => {
+            }).catch(error => {
                 const addedEmbed = new EmbedBuilder()
                     .setColor("#FF0000")
                     .setTitle("Not Found")
@@ -165,7 +170,17 @@ module.exports = {
 
                 queue.queueConstruct(message, queue_constructor);
                 server_queue = queue.getQueue().get(message.guild.id);
-                await playMusic(client, message, server_queue);
+
+                try {
+                    await playMusic(client, message, server_queue);
+                } catch(error) {
+                    const addedEmbed = new EmbedBuilder()
+                        .setColor("#FF0000")
+                        .setTitle("Not Found")
+                        .setDescription(`**URL / Song cannot be found**`);
+
+                    message.channel.send({ embeds: [addedEmbed]})
+                }
                 
             } else {
 
@@ -292,7 +307,17 @@ module.exports = {
                     message.channel.send({embeds: [addedEmbed]});
                 }
 
-                await playMusic(client, message, server_queue);
+                
+                try {
+                    await playMusic(client, message, server_queue);
+                } catch(error) {
+                    const addedEmbed = new EmbedBuilder()
+                        .setColor("#FF0000")
+                        .setTitle("Not Found")
+                        .setDescription(`**URL / Song cannot be found**`);
+
+                    message.channel.send({ embeds: [addedEmbed]})
+                }
 
             }   
 
