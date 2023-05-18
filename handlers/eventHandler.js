@@ -23,6 +23,15 @@ module.exports = (client) => {
         queue.textChannel.send({ embeds: [playingEmbed]})
     });
 
+    client.DisTube.on("error", (channel, e) => {
+        const addedEmbed = new EmbedBuilder()
+            .setColor("#FF0000")
+            .setTitle("Not Found / Cannot be play")
+            .setDescription(`**URL / Song cannot be found**`);
+
+        channel.send({ embeds: [addedEmbed]})
+    });
+
     const eventFolders = getAllFiles(path.join(__dirname, '..', 'events') , true);
 
     for (const eventFolder of eventFolders) {
